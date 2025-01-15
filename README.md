@@ -59,6 +59,7 @@
 - [Пакеты](#пакеты)
   - [Встраивание файлов](#встраивание-файлов)
   - [HTTP сервер](#http-сервер)
+  - [HTTP клиент](#http-клиент)
 
 ---
 
@@ -1104,11 +1105,115 @@ func main() {
 }
 ```
 
-Делаем запрос к API на клиенте:
+Делаем запрос к `API` через `curl`:
 
 ```bash
 curl -s "http://localhost:8080/api" | jq .message # "Hi Guest"
 curl -s "http://localhost:8080/api?name=Alex" | jq .message # "Hi Alex"
 curl -s -X POST -d '{"key":"value"}' -H "Content-Type: application/json" http://localhost:8080/api | jq .received.key # "value"
 curl -s -X POST "http://localhost:8080/api" # invalid JSON
+```
+
+## HTTP клиент
+
+Делаем запрос к `API` через `Go`:
+
+```go
+package main
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io"
+	"net/http"
+)
+
+func main() {
+	// URL для отправки POST-запроса
+	url := "http://localhost:8080/api"
+
+	// Тело запроса в формате JSON
+	requestBody := map[string]string{"key": "value"}
+	jsonData, err := json.Marshal(requestBody)
+	if err != nil {
+		fmt.Println("Ошибка при создании тела запроса в формате JSON:", err)
+		return
+	}
+
+	// Создаем запрос
+	resp, err := http.Post(url, "application/json", bytes.NewBuffer(jsonData))
+	if err != nil {
+		fmt.Println("Ошибка при отправке запроса:", err)
+		return
+	}
+	defer resp.Body.Close()
+
+	// Читаем тело ответа
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("Ошибка при чтении ответа:", err)
+		return
+	}
+
+	// Разбираем ответ в формате JSON
+	var response map[string]interface{}
+	if err := json.Unmarshal(body, &response); err != nil {
+		fmt.Println("Ошибка при парсинге JSON:", err)
+		return
+	}
+
+	// Выводим значение "key" из ответа
+	if received, ok := response["received"].(map[string]interface{}); ok {
+		if value, exists := received["key"]; exists {
+			fmt.Println(value) // "value"
+		} else {
+			fmt.Println("Ключ 'key' не найден в ответе")
+		}
+	} else {
+		fmt.Println("Ответ не содержит ожидаемую структуру received")
+	}
+}
+```
+
+`HTTP` запрос к `API` для получения последней версии релиза указаного [репозитория](https://github.com/Lifailon/lazyjournal) в GitHub:
+
+```go
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+	"log"
+	"net/http"
+)
+
+// Формируем структуру ответа от API
+type GitHubRelease struct {
+	TagName string `json:"tag_name"`
+}
+
+func main() {
+	// Формируем URL для получения информации
+    repos := "Lifailon/lazyjournal"
+	url := fmt.Sprintf("https://api.github.com/repos/%s/releases/latest", repos)
+	// Выполнение GET-запроса
+	resp, err := http.Get(url)
+	if err != nil {
+		log.Fatal("Ошибка при выполнении запроса:", err)
+	}
+	defer resp.Body.Close()
+	// Проверка на успешный ответ
+	if resp.StatusCode != http.StatusOK {
+		log.Fatalf("Ошибка HTTP: %s", resp.Status)
+	}
+	// Декодирование JSON-ответа в заданную структуру
+	var release GitHubRelease
+	err = json.NewDecoder(resp.Body).Decode(&release)
+	if err != nil {
+		log.Fatal("Ошибка при декодировании JSON:", err)
+	}
+	// Вывод последней версии
+	fmt.Println("Latest version:", release.TagName)
+}
 ```
