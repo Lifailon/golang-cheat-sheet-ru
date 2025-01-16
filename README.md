@@ -1,6 +1,11 @@
 ![](logo.png)
 
 <p align="center">
+        <a href="https://lifailon.github.io/golang/"><img title="Web version"src="https://img.shields.io/badge/web%20version-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white"></a>
+        <a href="Go-Cheat-Sheet-Ru.pdf"><img title="PDF version"src="https://img.shields.io/badge/pdf_version-DA1F26.svg?style=for-the-badge&logo=Adobe%20Acrobat%20Reader&logoColor=white"></a>
+</p>
+
+<p align="center">
     Вольный и расширенный перевод оригинального репозитория <a href="https://github.com/a8m/golang-cheat-sheet">Go Cheat Sheet</a> на русский язык.
 </p>
 
