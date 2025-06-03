@@ -1,11 +1,374 @@
+Решение задач по бесплатному курсу [Программирование на Golang](https://stepik.org/course/54403) от Stepik.
+
+Оглавление:
+
+- [Арифметические операции](#арифметические-операции)
+- [Условия](#условия)
 - [Циклы](#циклы)
+
+## Арифметические операции
+
+Напишите программу, которая последовательно делает следующие операции с введённым числом:
+
+- Число умножается на 2
+- Затем к числу прибавляется 100
+
+Sample Input:
+```
+1
+```
+
+Code:
+```Go
+package main
+
+import "fmt"
+
+func main(){
+    var a int
+    fmt.Scan(&a)
+    a = a*2
+    a = a +100
+    fmt.Print(a)
+}
+```
+
+Sample Output:
+```
+102
+```
+
+---
+
+Сначала находим квадраты двух чисел, а затем суммируем их.
+
+Sample Input:
+```
+2
+2
+```
+
+Code:
+```Go
+package main
+
+import "fmt"
+
+func main() {
+	var a int
+	var b int
+	var c int
+	fmt.Scan(&a)
+	fmt.Scan(&b)
+	a = a * a
+	b = b * b
+	c = a + b
+	fmt.Println(c)
+}
+```
+
+Sample Output:
+```
+8
+```
+
+---
+
+По данному целому числу, найдите его квадрат.
+
+Sample Input:
+```
+3
+```
+
+Code:
+```Go
+package main
+
+import "fmt"
+
+func main() {
+	var a int
+	fmt.Scan(&a)
+	fmt.Print(a * a)
+}
+```
+
+Sample Output:
+```
+9
+```
+
+---
+
+Дано натуральное число, выведите его последнюю цифру.
+
+Sample Input:
+```
+123
+```
+
+Code:
+```Go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	var s string
+	fmt.Scan(&s) // 123
+	last := s[len(s)-1]
+	str := string(last)
+	fmt.Print(str)
+}
+```
+
+Sample Output:
+```
+3
+```
+
+---
+
+Дано неотрицательное целое число. Найдите число десятков (то есть вторую цифру справа, или второй символ строки с конца).
+
+Sample Input:
+```
+2010
+```
+
+Code:
+```Go
+package main
+
+import "fmt"
+
+func main() {
+	var n string
+	fmt.Scan(&n)
+	fmt.Println(string(n[len(n)-2]))
+}
+```
+
+Sample Output:
+```
+1
+```
+
+---
+
+Часовая стрелка повернулась с начала суток на `d` градусов (0 < `d` < 360). Определите, сколько сейчас целых часов `h` и целых минут `m`. Циферблат часов стандартный 12-ти часовой.
+
+Sample Input:
+```
+90
+```
+
+Code:
+```Go
+package main
+
+import "fmt"
+
+func main() {
+	var d int
+	fmt.Scan(&d)
+	h := d / 30
+	m := d % 30
+	m = int(float64(m)/0.5 + 0.5)
+	fmt.Printf("It is %d hours %d minutes.\n", h, m)
+}
+```
+
+Sample Output:
+```
+It is 3 hours 0 minutes.
+```
+
+---
+
+## Условия
+
+На ввод подается целое число. Если число положительное - вывести сообщение `Число положительное`, если число отрицательное - `Число отрицательное`. Если подается ноль - вывести сообщение `Ноль`.
+
+Sample Input:
+```
+5
+```
+
+Code:
+```Go
+package main
+
+import "fmt"
+
+func main() {
+	var in int
+	fmt.Scan(&in)
+	switch {
+	case in > 0:
+		fmt.Print("Число положительное")
+	case in < 0:
+		fmt.Print("Число отрицательное")
+	default:
+		fmt.Print("Ноль")
+	}
+}
+```
+
+Sample Output:
+```
+Число положительное
+```
+
+---
+
+По данному трехзначному числу определите, все ли его цифры различны.
+
+Sample Input:
+```
+237
+```
+
+Code:
+```Go
+package main
+
+import "fmt"
+
+func main() {
+	var in int
+	fmt.Scan(&in)
+	// 2
+	a := in / 100
+	// 3
+	b := in / 10 % 10
+	// 7
+	c := in % 10
+	// 2 != 3 && 3 != 7 && 7 != 2
+	if a != b && b != c && c != a {
+		fmt.Print("YES")
+	} else {
+		fmt.Print("NO")
+	}
+}
+```
+
+Sample Output:
+```
+YES
+```
+
+---
+
+Дано неотрицательное целое число. Найдите и выведите первую цифру числа. 
+
+Sample Input:
+```
+1234
+```
+
+Code:
+```Go
+package main
+
+import "fmt"
+
+func main() {
+	var in string
+	fmt.Scan(&in)
+	// Преобразуем из кода символа Unicode (UTF-8) в целое число
+	// Вычитаем значение символа 0 (48) и получаем остаток целого числа
+	fmt.Print(int(in[0] - '0'))
+}
+```
+
+Sample Output:
+```
+1
+```
+
+---
+
+Определите является ли билет счастливым. Счастливым считается билет, в шестизначном номере которого сумма первых трёх цифр совпадает с суммой трёх последних.
+
+Sample Input:
+```
+613244
+```
+
+Code:
+```Go
+package main
+
+import "fmt"
+
+func main() {
+	var a, b, c int
+	var q, w, e int
+	fmt.Scanf("%1d%1d%1d%1d%1d%1d", &a, &b, &c, &q, &w, &e)
+	if a+b+c == q+w+e {
+		fmt.Print("YES")
+	} else {
+		fmt.Print("NO")
+	}
+}
+```
+
+Sample Output:
+```
+YES
+```
+
+---
+
+Требуется определить, является ли данный год високосным.
+
+Год является високосным если он соответствует хотя бы одному из нижеперечисленных условий:
+
+- кратен 400
+- кратен 4, но не кратен 100
+
+Sample Input:
+```
+2000
+```
+
+Code:
+```Go
+package main
+
+import "fmt"
+
+func isLeapYear(year int) bool {
+	return year%400 == 0 || (year%4 == 0 && year%100 != 0)
+}
+
+func main() {
+	var year int
+	fmt.Scan(&year)
+	if isLeapYear(year) {
+		fmt.Println("YES")
+	} else {
+		fmt.Println("NO")
+	}
+}
+```
+
+Sample Output:
+```
+YES
+```
+
+---
 
 ## Циклы
 
 Напишите программу, которая выводит квадраты натуральных чисел от 1 до 10. Квадрат каждого числа должен выводиться в новой строке.
 
 Input:
-
 ```
 1
 2
@@ -20,7 +383,6 @@ Input:
 ```
 
 Code:
-
 ```Go
 package main
 
@@ -36,7 +398,6 @@ func main() {
 ```
 
 Output:
-
 ```
 1
 4
@@ -55,13 +416,11 @@ Output:
 Требуется написать программу, при выполнении которой с клавиатуры считываются два натуральных числа A и B (каждое не более 100, A < B). Вывести сумму всех чисел от A до B  включительно.
 
 Sample Input:
-
 ```
 1 5
 ```
 
 Code:
-
 ```Go
 package main
 
@@ -80,7 +439,6 @@ func main() {
 ```
 
 Sample Output:
-
 ```
 15
 ```
@@ -92,14 +450,12 @@ Sample Output:
 > Входящие данные должны удовлетворять двум условиям - числов в диапазоне от 10 до 99 и при делении на 8 остаток равен нулю. Получить сумму отфильтрованных входных значений.
 
 Sample Input:
-
 ```
 5
 38 24 800 8 16
 ```
 
 Code:
-
 ```Go
 package main
 
@@ -135,7 +491,6 @@ func main() {
 > 24 + 16
 
 Sample Output:
-
 ```
 40
 ```
@@ -145,7 +500,6 @@ Sample Output:
 Последовательность состоит из натуральных чисел и завершается числом 0. Определите количество элементов этой последовательности, которые равны ее наибольшему элементу. Вводится непустая последовательность натуральных чисел, оканчивающаяся числом 0 (само число 0 в последовательность не входит, а служит как признак ее окончания).
 
 Sample Input:
-
 ```
 1
 3
@@ -155,7 +509,6 @@ Sample Input:
 ```
 
 Code:
-
 ```Go
 package main
 
@@ -203,7 +556,6 @@ Sample Output:
 
 
 Sample Input:
-
 ```
 20
 3
@@ -211,7 +563,6 @@ Sample Input:
 ```
 
 Code:
-
 ```Go
 package main
 
@@ -241,7 +592,6 @@ func main() {
 ```
 
 Sample Output:
-
 ```
 3
 ```
@@ -257,7 +607,6 @@ Sample Output:
 - В остальных случаях вывести это число обратно на консоль в отдельной строке
 
 Sample Input:
-
 ```
 30
 11
@@ -266,7 +615,6 @@ Sample Input:
 ```
 
 Code:
-
 ```Go
 package main
 
@@ -292,7 +640,6 @@ main:
 ```
 
 Sample Output:
-
 ```
 30
 11
