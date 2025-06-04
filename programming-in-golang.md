@@ -1,10 +1,12 @@
-Решение задач по бесплатному курсу [Программирование на Golang](https://stepik.org/course/54403) от Stepik.
+Решение задач из курса [Программирование на Golang](https://stepik.org/course/54403) от Stepik.
 
 Оглавление:
 
 - [Арифметические операции](#арифметические-операции)
 - [Условия](#условия)
 - [Циклы](#циклы)
+- [Форматирование](#форматирование)
+- [Массивы](#массивы)
 
 ## Арифметические операции
 
@@ -19,7 +21,7 @@ Sample Input:
 ```
 
 Code:
-```Go
+```go
 package main
 
 import "fmt"
@@ -49,7 +51,7 @@ Sample Input:
 ```
 
 Code:
-```Go
+```go
 package main
 
 import "fmt"
@@ -82,7 +84,7 @@ Sample Input:
 ```
 
 Code:
-```Go
+```go
 package main
 
 import "fmt"
@@ -109,7 +111,7 @@ Sample Input:
 ```
 
 Code:
-```Go
+```go
 package main
 
 import (
@@ -140,7 +142,7 @@ Sample Input:
 ```
 
 Code:
-```Go
+```go
 package main
 
 import "fmt"
@@ -167,7 +169,7 @@ Sample Input:
 ```
 
 Code:
-```Go
+```go
 package main
 
 import "fmt"
@@ -199,7 +201,7 @@ Sample Input:
 ```
 
 Code:
-```Go
+```go
 package main
 
 import "fmt"
@@ -233,7 +235,7 @@ Sample Input:
 ```
 
 Code:
-```Go
+```go
 package main
 
 import "fmt"
@@ -271,7 +273,7 @@ Sample Input:
 ```
 
 Code:
-```Go
+```go
 package main
 
 import "fmt"
@@ -300,7 +302,7 @@ Sample Input:
 ```
 
 Code:
-```Go
+```go
 package main
 
 import "fmt"
@@ -337,7 +339,7 @@ Sample Input:
 ```
 
 Code:
-```Go
+```go
 package main
 
 import "fmt"
@@ -383,7 +385,7 @@ Input:
 ```
 
 Code:
-```Go
+```go
 package main
 
 import "fmt"
@@ -421,7 +423,7 @@ Sample Input:
 ```
 
 Code:
-```Go
+```go
 package main
 
 import "fmt"
@@ -456,7 +458,7 @@ Sample Input:
 ```
 
 Code:
-```Go
+```go
 package main
 
 import (
@@ -509,7 +511,7 @@ Sample Input:
 ```
 
 Code:
-```Go
+```go
 package main
 
 import (
@@ -563,7 +565,7 @@ Sample Input:
 ```
 
 Code:
-```Go
+```go
 package main
 
 import "fmt"
@@ -615,7 +617,7 @@ Sample Input:
 ```
 
 Code:
-```Go
+```go
 package main
 
 import (
@@ -657,7 +659,7 @@ Sample Input:
 ```
 
 Code:
-```Go
+```go
 package main
 
 import "fmt"
@@ -698,7 +700,7 @@ Sample Input:
 ```
 
 Code:
-```Go
+```go
 package main
 
 import "fmt"
@@ -713,7 +715,9 @@ func main() {
 	for _, l := range left {
 		for _, r := range right {
 			if l == r {
-				fmt.Print(int(l) - '0')
+				// Преобразуем rune в int
+				// fmt.Print(int(l) - '0')
+				fmt.Printf("%c", l)
 				fmt.Print(" ")
 				break
 			}
@@ -725,4 +729,108 @@ func main() {
 Sample Output:
 ```
 5 4
+```
+
+## Форматирование
+
+На вход подается число типа float64. Вам нужно вывести преобразованное число по правилу: число возводится в квадрат, затем обрезается дробная часть так что остается 4 знака после запятой. Но если число равно или меньше нуля - выводить:
+"число R не подходит", где R - исходное число с 2 цифрами после запятой и с 2 по ширине. А если число больше чем 10 000 - выводить исходное число в экспоненциальном представлении (знак экспоненты в нижнем регистре).
+
+Sample input:
+```
+12.12345678
+```
+
+Code:
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	var R float64
+	fmt.Scan(&R)
+	if R <= 0 {
+		fmt.Printf("число %2.2f не подходит", R)
+		return
+	}
+	if R > 10000 {
+		fmt.Printf("%e", R)
+		return
+	}
+	RR := R * R
+	fmt.Printf("%.4f", RR)
+}
+
+```
+
+Sample output:
+```
+146.9782
+```
+
+## Массивы
+
+На первом этапе на стандартный ввод подается 10 целых положительных чисел, которые должны быть записаны в порядке ввода в массив из 10 элементов. Тип чисел, входящих в массив, должен соответствовать минимально возможному целому беззнаковому типу. Имя массива который вы должны сами создать `workArray` (условие обязательное). Использование массива - обязательное условие.
+
+На втором этапе на стандартный ввод подаются еще 3 пары чисел - индексы элементов этого массива, которые требуется поменять местами (если такая пара чисел 3 и 7, значит в массиве элемент с 3 индексом нужно поменять местами с элементом, индекс которого 7).
+
+Sample Input:
+```
+99 151 137 71 117 187 20 93 187 67 1 2 3 5 7 8
+```
+
+Code:
+```go
+package main
+
+import "fmt"
+
+func main() {
+	// Создаем срез длинной 10 элементов с типом данных uint8
+	var workArray [10]uint8
+	var counter int = 0
+	// Заполняем срез из stdin по индексу счетчика counter
+	for {
+		if counter > 9 {
+			break
+		}
+		var input uint8
+		fmt.Scan(&input)
+		workArray[counter] = input
+		counter++
+	}
+	// Создаем цикл из трех интераций
+	for i := 0; i < 3; i++ {
+		// Считываем пару индексов из stdin
+		var leftInputIndex int
+		var rightInputIndex int
+		fmt.Scan(&leftInputIndex)  // 1
+		fmt.Scan(&rightInputIndex) // 2
+		// Фиксируем текущие значения элементов по индексам
+		leftElement := workArray[leftInputIndex]   // [1] = 151
+		rightElement := workArray[rightInputIndex] // [2] = 137
+		// Меняем значения элементов местами по индексам
+		workArray[leftInputIndex] = rightElement // [1] = 137
+		workArray[rightInputIndex] = leftElement // [2] = 151
+	}
+	for _, element := range workArray {
+		fmt.Print(element, " ")
+	}
+	// Проверяем тип данных массива и завершаем программу
+	if _, ok := interface{}(workArray).([10]uint8); ok {
+		fmt.Print("type ok")
+		return
+	} else {
+		fmt.Print("type error")
+		return
+	}
+}
+```
+
+Sample Output:
+```
+99 137 151 187 117 71 20 187 93 67 type ok
 ```
