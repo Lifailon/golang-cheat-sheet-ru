@@ -7,16 +7,12 @@
 - [Циклы](#циклы)
 - [Форматирование](#форматирование)
 - [Массивы](#массивы)
-- [3](#3)
 
 ---
 
 ## Арифметические операции
 
-Напишите программу, которая последовательно делает следующие операции с введeнным числом:
-
-- Число умножается на 2
-- Затем к числу прибавляется 100
+На вход принимается целое число, которое умножается на 2, а затем к числу прибавляется 100 и выводится на экран.
 
 Sample Input:
 ```
@@ -190,6 +186,271 @@ func main() {
 Sample Output:
 ```
 It is 3 hours 0 minutes.
+```
+
+---
+
+На вход подается целое число `k` (`0 < k < 86399`). Определите, сколько целых часов `h` и целых минут `m` прошло с начала суток. Например, если `k=13257=3*3600+40*60+57`, то `h=3` и `m=40`.
+
+Sample Input:
+```
+13257
+```
+
+Code:
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var k int
+	fmt.Scan(&k)
+	h := k / 3600          // целые часы
+	m := (k % 3600) / 60   // целые минуты
+	fmt.Printf("It is %d hours %d minutes.\n", h, m)
+}
+```
+
+Sample Output:
+```
+It is 3 hours 40 minutes.
+```
+
+---
+
+Дано трехзначное число. Найдите сумму его цифр. 
+
+Sample Input:
+```
+745
+```
+
+Code:
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var input string
+	fmt.Scan(&input)
+	var sum int
+	for _, e := range input {
+		sum += int(e - '0')
+	}
+	fmt.Print(sum)
+}
+```
+
+Sample Output:
+```
+16
+```
+
+---
+
+На вход дается трехзначное число, не оканчивающееся на ноль. Выведите перевернутое число.
+
+Sample Input:
+```
+843
+```
+
+Code:
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var input string
+	fmt.Scan(&input)
+	// Фиксируем длинну строки
+	var lenInput int = len(input) - 1
+	for lenInput >= 0 {
+		// Выводим значения строки в обратном порядке
+		fmt.Print(int(input[lenInput] - '0'))
+		// Уменьшаем счетчик
+		lenInput--
+	}
+}
+```
+
+Sample Output:
+```
+348
+```
+
+---
+
+Заданы три числа - `a,b,c(a<b<c)` - длины сторон треугольника. Нужно проверить, является ли треугольник прямоугольным. Если является, вывести `Прямоугольный`, иначе вывести `Непрямоугольный`.
+
+Sample Input:
+```
+6 8 10
+```
+
+Code:
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var a, b, c int
+	fmt.Scan(&a, &b, &c)
+	// Проверяем условие прямоугольного треугольника по теореме Пифагора
+	if a*a + b*b == c*c {
+		fmt.Println("Прямоугольный")
+	} else {
+		fmt.Println("Непрямоугольный")
+	}
+}
+```
+
+Sample Output:
+```
+Прямоугольный
+```
+
+---
+
+Даны два числа. Найти их среднее арифметическое.
+
+Sample Input:
+```
+277 154
+```
+
+Code:
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var a, b float32
+	fmt.Scan(&a, &b)
+	fmt.Print(a/2+b/2)
+}
+```
+
+Sample Output:
+```
+215.5
+```
+
+---
+
+Программа должна вывести введенное число `n` и одно из слов (на латинице): `korov`, `korova` или `korovy`, например, `1 korova`, `2 korovy`, `5 korov`.
+
+Sample Input:
+```
+10
+```
+
+Code:
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var n int
+	fmt.Scan(&n)
+	// Получаем последнюю цифру числа (остаток от деления на 10)
+	last := n % 10
+	// Получаем последние две цифры числа (остаток от деления на 100)
+	last2 := n % 100
+	var word string
+	// Если последняя цифра 1 или 101, но последние две цифры не 11
+	if last == 1 && last2 != 11 {
+		word = "korova"
+	// Если последняя цифра от 2 до 4 и последние две цифры не от 12 до 14
+	} else if last >= 2 && last <= 4 && (last2 < 12 || last2 > 14) {
+		word = "korovy"
+	// Во всех остальных случаях
+	} else {
+		word = "korov"
+	}
+	fmt.Printf("%d %s", n, word)
+}
+```
+
+Sample Output:
+```
+10 korov
+```
+
+---
+
+По данному числу `N` распечатайте все целые значения степени двойки, не превосходящие `N`, в порядке возрастания.
+
+
+Sample Input:
+```
+50
+```
+
+Code:
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var N int
+	fmt.Scan(&N)
+	var el int = 1
+	for {
+		fmt.Print(el, " ")
+		el = el * 2
+		if el > N {
+			break
+		}
+	}
+}
+```
+
+Sample Output:
+```
+1 2 4 8 16 32
+```
+
+---
+
+Вводятся натуральное число и цифра, которую нужно удалить.
+
+Sample Input:
+```
+38012732
+3
+```
+
+Code:
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var input string
+	var del int
+	fmt.Scan(&input)
+	fmt.Scan(&del)
+	for _, e := range input {
+		n := int(e - '0')
+		if n != del {
+			fmt.Print(n)
+		}
+	}
+}
+```
+
+Sample Output:
+```
+801272
 ```
 
 ---
@@ -768,12 +1029,38 @@ func main() {
 	RR := R * R
 	fmt.Printf("%.4f", RR)
 }
-
 ```
 
 Sample output:
 ```
 146.9782
+```
+
+---
+
+Дано натуральное число `N`. Выведите его представление в двоичном виде.
+
+Sample input:
+```
+12
+```
+
+Code:
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var N int
+	fmt.Scan(&N)
+	fmt.Printf("%b", N)
+}
+```
+
+Sample output:
+```
+1100
 ```
 
 ---
@@ -912,6 +1199,7 @@ func main() {
 	// Инициализируем максимальное значение первым элементом массива
 	var max int = array[0]
 	for _, e := range array {
+		// Проверяем каждый элемент в массиве, что он больше максимального
 		if e > max {
 			max = e
 		}
@@ -951,6 +1239,7 @@ func main() {
 		array[i] = a
 	}
 	for i, e := range array {
+		// Проверяем индекс на четность
 		if i%2 == 0 {
 			fmt.Print(e, " ")
 		}
@@ -991,6 +1280,7 @@ func main() {
 	}
 	var count int
 	for _, e := range array {
+		// Проверяем что элемент массива больше или равен 0 и увеличиваем счетчик
 		if e >= 0 {
 			count++
 		}
@@ -1003,5 +1293,48 @@ Sample Output:
 ```
 4 3 2
 ```
-3
+
+---
+
+Найдите самое большее число на отрезке от `a` до `b` (отрезок включает в себя числа `a` и `b`), кратное 7, или выведите `NO` - если таковых нет.
+
+Sample Input:
+```
+100
+500
+```
+
+Code:
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var a, b int
+	fmt.Scan(&a, &b)
+	// Создаем срез длины b - a + 1 включительно (500-100+1)
+	arr := make([]int, b-a+1)
+	var max int
+	for i := range arr {
+		// Заполняем срез значениями от a до b
+		arr[i] = a + i
+		// Прверяем значение на кратность 7 и фиксируем
+		if arr[i]%7 == 0 {
+			max = arr[i]
+		}
+	}
+	if max == 0 {
+		fmt.Print("NO")
+	} else {
+		fmt.Print(max)
+	}
+}
+```
+
+Sample Output:
+```
+497
+```
+
 ---
